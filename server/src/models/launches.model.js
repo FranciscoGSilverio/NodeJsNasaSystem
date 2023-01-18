@@ -22,7 +22,7 @@ function getAllLaunches() {
 function createNewLaunch(launch) {
   latestFlightNumber++;
   launches.set(
-    launch.flightNumber,
+    latestFlightNumber,
     Object.assign(launch, {
       success: true,
       upcoming: true,
@@ -32,7 +32,22 @@ function createNewLaunch(launch) {
   );
 }
 
+function abortLaunch(id) {
+  const aborted = launches.get(id);
+
+  aborted.upcoming = false;
+  aborted.success = false;
+
+  return aborted;
+}
+
+function findLaunchById(id) {
+  return launches.has(id);
+}
+
 module.exports = {
   getAllLaunches,
   createNewLaunch,
+  abortLaunch,
+  findLaunchById,
 };

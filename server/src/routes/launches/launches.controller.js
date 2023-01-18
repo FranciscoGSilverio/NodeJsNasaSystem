@@ -24,6 +24,8 @@ function httpCreateLaunch(req, res) {
   }
   newLaunch.launchDate = new Date(newLaunch.launchDate);
 
+  if (isNaN(newLaunch.launchDate.valueOf()))
+    return res.status(400).json({ error: "Invalid date format" });
   createNewLaunch(newLaunch);
 
   return res.status(201).json(newLaunch);
@@ -33,8 +35,6 @@ function httpAbortLaunch(req, res) {
   const id = +req.params.id;
 
   const launchExists = findLaunchById(id);
-
-  console.log("exists", launchExists);
 
   if (launchExists) {
     const aborted = abortLaunch(id);

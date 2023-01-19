@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("./../../app");
-const { post } = require("./launches.router");
 
 describe("API CRUD", () => {
   const MOCK_LAUNCH = {

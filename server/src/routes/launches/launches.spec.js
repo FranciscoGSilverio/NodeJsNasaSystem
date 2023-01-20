@@ -1,47 +1,62 @@
 const request = require("supertest");
 const app = require("./../../app");
+const { mongoConnect, mongoDisconnect } = require("./../../services/mongo");
+const launches = require("./../../models/launches.mongo");
+
+const MOCK_LAUNCH = {
+  mission: "Brazilian air force",
+  rocket: "BRA 2023-D",
+  target: "Kepler-1652 b",
+  launchDate: "January 5, 2030",
+};
+
+const MOCK_LAUNCH_WITHOUT_DATE = {
+  mission: "Brazilian air force",
+  rocket: "BRA 2023-D",
+  target: "Kepler-1652 b",
+};
+
+const MOCK_LAUNCH_WITH_INVALID_DATE = {
+  mission: "Brazilian air force",
+  rocket: "BRA 2023-D",
+  target: "Kepler-1652 b",
+  launchDate: "Invalid Date Format",
+};
+
+const INITIAL_LAUNCH = {
+  flightNumber: 100,
+  mission: "Kepler Exploration X",
+  rocket: "Explorer IS1",
+  launchDate: new Date("December 27, 2030"),
+  target: "Kepler-442 b",
+  customers: ["ZTM", "CTL", "NASA"],
+  upcoming: true,
+  success: true,
+};
+
+const INITIAL_LAUNCH_AFTER_ABORTING = {
+  ...INITIAL_LAUNCH,
+  launchDate: "2030-12-27T03:00:00.000Z",
+  upcoming: false,
+  success: false,
+};
 
 describe("API CRUD", () => {
-  const MOCK_LAUNCH = {
-    mission: "Brazilian air force",
-    rocket: "BRA 2023-D",
-    target: "Kepler-186 d",
-    launchDate: "January 5, 2030",
-  };
+  beforeAll(async () => {
+    await mongoConnect();
+    await launches.updateOne(
+      { flightNumber: INITIAL_LAUNCH.flightNumber },
+      INITIAL_LAUNCH,
+      { upsert: true }
+    );
+  });
 
-  const MOCK_LAUNCH_WITHOUT_DATE = {
-    mission: "Brazilian air force",
-    rocket: "BRA 2023-D",
-    target: "Kepler-186 d",
-  };
-
-  const MOCK_LAUNCH_WITH_INVALID_DATE = {
-    mission: "Brazilian air force",
-    rocket: "BRA 2023-D",
-    target: "Kepler-186 d",
-    launchDate: "Invalid Date Format",
-  };
-
-  const INITIAL_LAUNCH = {
-    flightNumber: 100,
-    mission: "Kepler Exploration X",
-    rocket: "Explorer IS1",
-    launchDate: new Date("December 27, 2030"),
-    target: "Kepler-442 b",
-    customers: ["ZTM", "CTL", "NASA"],
-    upcoming: true,
-    success: true,
-  };
-
-  const INITIAL_LAUNCH_AFTER_ABORTING = {
-    ...INITIAL_LAUNCH,
-    launchDate: "2030-12-27T03:00:00.000Z",
-    upcoming: false,
-    success: false,
-  };
+  afterAll(async () => {
+    await mongoDisconnect();
+  });
 
   it("Should respond the get launches request with 200 success", async () => {
-    const response = await request(app)
+    await request(app)
       .get("/launches")
       .expect("Content-Type", /json/)
       .expect(200);
@@ -88,6 +103,6 @@ describe("API CRUD", () => {
   it("Should change the success and upcoming object properties after aborting launch", async () => {
     const response = await request(app).delete("/launches/100").expect(200);
 
-    expect(response.body).toStrictEqual(INITIAL_LAUNCH_AFTER_ABORTING);
+    expect(response.body).toStrictEqual({ message: "Flight aborted" });
   });
 });

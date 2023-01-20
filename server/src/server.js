@@ -5,7 +5,7 @@ const { loadPlanets } = require("./models/planets.model");
 
 require("dotenv").config();
 
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 8000;
 
 const server = http.createServer(app);
 
@@ -20,12 +20,7 @@ mongoose.connection.on("error", (error) => {
 });
 
 const startup = async () => {
-  await mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    // useFindAndModify: false,
-    // useCreateIndex: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(MONGO_URL);
 
   await loadPlanets();
   server.listen(PORT, () => {

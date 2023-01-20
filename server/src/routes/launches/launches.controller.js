@@ -1,15 +1,15 @@
 const {
   getAllLaunches,
-  createNewLaunch,
+  scheduleLaunch,
   abortLaunch,
   findLaunchById,
 } = require("../../models/launches.model");
 
-function httpGetAllLaunches(req, res) {
-  return res.status(200).json(getAllLaunches());
+async function httpGetAllLaunches(req, res) {
+  return res.status(200).json(await getAllLaunches());
 }
 
-function httpCreateLaunch(req, res) {
+async function httpCreateLaunch(req, res) {
   const newLaunch = req.body;
 
   if (
@@ -26,7 +26,7 @@ function httpCreateLaunch(req, res) {
 
   if (isNaN(newLaunch.launchDate.valueOf()))
     return res.status(400).json({ error: "Invalid date format" });
-  createNewLaunch(newLaunch);
+  await scheduleLaunch(newLaunch);
 
   return res.status(201).json(newLaunch);
 }

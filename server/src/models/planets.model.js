@@ -34,7 +34,7 @@ function loadPlanets() {
         reject(error);
       })
       .on("end", async () => {
-        const planetsFound = await getAllPlanets()
+        const planetsFound = await getAllPlanets();
 
         console.log(`${planetsFound.length} habitable planets found!`);
         resolve();

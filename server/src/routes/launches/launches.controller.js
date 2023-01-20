@@ -31,15 +31,20 @@ async function httpCreateLaunch(req, res) {
   return res.status(201).json(newLaunch);
 }
 
-function httpAbortLaunch(req, res) {
+async function httpAbortLaunch(req, res) {
   const id = +req.params.id;
 
-  const launchExists = findLaunchById(id);
+  const launchExists = await findLaunchById(id);
 
   if (launchExists) {
-    const aborted = abortLaunch(id);
+    const aborted = await abortLaunch(id);
 
-    return res.status(200).json(aborted);
+    // return res.status(200).json(aborted);
+
+    if (aborted.modifiedCount === 1) {
+      return res.status(200).json({ message: "Flight aborted" });
+    } else
+      return res.status(400).json({ error: "Unable to abort the flight "});
   } else return res.status(404).json({ message: "Launch not found" });
 }
 

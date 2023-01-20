@@ -24,14 +24,6 @@ async function getAllLaunches() {
   return await launchesDatabase.find({}, { _id: 0, __v: 0 });
 }
 
-function createNewLaunch(launch) {
-  try {
-    scheduleLaunch(launch);
-  } catch (error) {
-    console.error(`Unable to save launch to database ${error}`);
-  }
-}
-
 async function scheduleLaunch(launch) {
   const newFlightNumber = (await getLatestFlightNumber()) + 1;
 
@@ -70,17 +62,19 @@ async function getLatestFlightNumber() {
   return latestLaunch.flightNumber;
 }
 
-function abortLaunch(id) {
-  const aborted = launches.get(id);
+async function abortLaunch(id) {
+  const aborted = await findLaunchById(id);
 
-  aborted.upcoming = false;
-  aborted.success = false;
+  const response = await launchesDatabase.updateOne(
+    { flightNumber: id },
+    { upcoming: false, success: false }
+  );
 
-  return aborted;
+  return response;
 }
 
-function findLaunchById(id) {
-  return launches.has(id);
+async function findLaunchById(id) {
+  return await launchesDatabase.findOne({ flightNumber: id });
 }
 
 module.exports = {

@@ -4,9 +4,12 @@ const {
   abortLaunch,
   findLaunchById,
 } = require("../../models/launches.model");
+const definePagination = require("../../services/query");
 
 async function httpGetAllLaunches(req, res) {
-  return res.status(200).json(await getAllLaunches());
+  const { limit, skip } = definePagination(req.query);
+
+  return res.status(200).json(await getAllLaunches(limit, skip));
 }
 
 async function httpCreateLaunch(req, res) {
@@ -44,7 +47,7 @@ async function httpAbortLaunch(req, res) {
     if (aborted.modifiedCount === 1) {
       return res.status(200).json({ message: "Flight aborted" });
     } else
-      return res.status(400).json({ error: "Unable to abort the flight "});
+      return res.status(400).json({ error: "Unable to abort the flight " });
   } else return res.status(404).json({ message: "Launch not found" });
 }
 

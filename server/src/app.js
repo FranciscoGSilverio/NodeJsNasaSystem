@@ -6,6 +6,7 @@ const planetsRouter = require("./routes/planets/planets.router");
 const launchesRouter = require("./routes/launches/launches.router");
 
 const { join } = require("path");
+const api = require("./routes/api");
 
 const webappPath = join(__dirname, "..", "public");
 const webappIndexPath = join(__dirname, "..", "public", "index.html");
@@ -21,8 +22,7 @@ app.use(morgan("combined"));
 app.use(express.json());
 app.use(express.static(webappPath));
 
-app.use("/planets", planetsRouter);
-app.use("/launches", launchesRouter);
+app.use("/v1", api);
 
 app.get("/*", (req, res) => {
   return res.sendFile(webappIndexPath);

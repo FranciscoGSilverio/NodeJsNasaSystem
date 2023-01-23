@@ -57,14 +57,14 @@ describe("API CRUD", () => {
 
   it("Should respond the get launches request with 200 success", async () => {
     await request(app)
-      .get("/launches")
+      .get("/v1/launches")
       .expect("Content-Type", /json/)
       .expect(200);
   });
 
   it("Should respond the post launch request with 201 success", async () => {
     const response = await request(app)
-      .post("/launches")
+      .post("/v1/launches")
       .send(MOCK_LAUNCH)
       .expect("Content-Type", /json/)
       .expect(201);
@@ -78,7 +78,7 @@ describe("API CRUD", () => {
 
   it("Should return the missing required property error message", async () => {
     const response = await request(app)
-      .post("/launches")
+      .post("/v1/launches")
       .send(MOCK_LAUNCH_WITHOUT_DATE)
       .expect(400);
 
@@ -91,7 +91,7 @@ describe("API CRUD", () => {
 
   it("Should return the invalid date format error message", async () => {
     const response = await request(app)
-      .post("/launches")
+      .post("/v1/launches")
       .send(MOCK_LAUNCH_WITH_INVALID_DATE)
       .expect(400);
 
@@ -101,7 +101,7 @@ describe("API CRUD", () => {
   });
 
   it("Should change the success and upcoming object properties after aborting launch", async () => {
-    const response = await request(app).delete("/launches/100").expect(200);
+    const response = await request(app).delete("/v1/launches/100").expect(200);
 
     expect(response.body).toStrictEqual({ message: "Flight aborted" });
   });

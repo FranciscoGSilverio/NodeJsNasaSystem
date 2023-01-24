@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("./../../app");
 const { mongoConnect, mongoDisconnect } = require("./../../services/mongo");
 const launches = require("./../../models/launches.mongo");
+const { loadPlanets } = require("./../../models/planets.model");
 
 const MOCK_LAUNCH = {
   mission: "Brazilian air force",
@@ -44,6 +45,7 @@ const INITIAL_LAUNCH_AFTER_ABORTING = {
 describe("API CRUD", () => {
   beforeAll(async () => {
     await mongoConnect();
+    await loadPlanets();
     await launches.updateOne(
       { flightNumber: INITIAL_LAUNCH.flightNumber },
       INITIAL_LAUNCH,

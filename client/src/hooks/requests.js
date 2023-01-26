@@ -1,8 +1,8 @@
-const API_URL = process.env.REACT_APP_APIURL || "http://localhost:8000";
+const API_URL = "/v1";
 
 async function httpGetPlanets() {
   try {
-    const res = await fetch(`${API_URL}/v1/planets`);
+    const res = await fetch(`${API_URL}/planets`);
     const json = await res.json();
     return json;
   } catch (error) {
@@ -12,7 +12,7 @@ async function httpGetPlanets() {
 
 async function httpGetLaunches() {
   try {
-    const res = await fetch(`${API_URL}/v1/launches`);
+    const res = await fetch(`${API_URL}/launches`);
     const launches = await res.json();
 
     const sortedLaunches = launches.sort((a, b) => a - b);
@@ -25,7 +25,7 @@ async function httpGetLaunches() {
 
 async function httpSubmitLaunch(launch) {
   try {
-    const res = await fetch(`${API_URL}/v1/launches`, {
+    const res = await fetch(`${API_URL}/launches`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ async function httpSubmitLaunch(launch) {
 
 async function httpAbortLaunch(id) {
   try {
-    const res = await fetch(`${API_URL}/v1/launches/${id}`, {
+    const res = await fetch(`${API_URL}/launches/${id}`, {
       method: "DELETE",
     });
 

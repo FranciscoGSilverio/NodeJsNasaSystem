@@ -1,6 +1,12 @@
 # NodeJs - Nasa Mission Control System
 
-The mission control system schedules and abort launches to a given planet.
+
+
+<div align="center">
+  The mission control system schedules and abort launches to a given planet.
+  <p></p>
+  <img src="./Assets/Preview.png" alt="Visualização da página do projeto" width=700/>
+</div>
 
 ## Preview
 
@@ -39,6 +45,14 @@ To avoid the configurations listed above you can execute using Docker
 ```bash
 docker run -it -p 8000:8000 franciscogsilverio/ztm-nasa-project
 ```
+
+## Architecture
+
+The following diagram shows how each part of the program communicate between each other:
+
+<div align='center'> 
+  <img src='./Assets/Arquitetura.png' alt='Desenho da arquitetura do projeto' width=700/>
+</div>
 
 ## Contributing
 

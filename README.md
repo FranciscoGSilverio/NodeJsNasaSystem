@@ -32,7 +32,7 @@ cd NodeJsNasaSystem
 npm run install
 ```
 
-Obs: You will need to create a .env file with your MongoDB connection string. It will look something like this: 
+PS: You will need to create a .env file with your MongoDB connection string. It will look something like this: 
 
 ```bash
 MONGODB_URL=<mysecretconnectionstring>

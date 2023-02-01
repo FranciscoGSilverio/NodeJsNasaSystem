@@ -1,6 +1,4 @@
-# NodeJs - Nasa Mission Control System
-
-
+<h1 align="center" id="title">NodeJs - Nasa Mission Control System</h1>
 
 <div align="center">
   The mission control system schedules and abort launches to a given planet.

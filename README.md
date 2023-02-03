@@ -52,6 +52,10 @@ The following diagram shows how each part of the program communicate between eac
   <img src='./Assets/Arquitetura.png' alt='Desenho da arquitetura do projeto' width=700/>
 </div>
 
+## Documentation 🗎
+
+If you would like to check the API documentation, click [here](http://ec2-52-91-149-236.compute-1.amazonaws.com:8000/docs)
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first

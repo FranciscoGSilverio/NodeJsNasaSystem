@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const bodyParser = require("body-parser");
 
-const planetsRouter = require("./routes/planets/planets.router");
-const launchesRouter = require("./routes/launches/launches.router");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger/swagger_output.json");
 
 const { join } = require("path");
 const api = require("./routes/api");
@@ -14,12 +15,17 @@ const webappIndexPath = join(__dirname, "..", "public", "index.html");
 const app = express();
 
 app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
+  // cors({
+  //   origin: "http://localhost:8000",
+  // })
+  cors()
 );
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 app.use(morgan("combined"));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(webappPath));
 
 app.use("/v1", api);

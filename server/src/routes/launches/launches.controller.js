@@ -7,6 +7,10 @@ const {
 const definePagination = require("../../services/query");
 
 async function httpGetAllLaunches(req, res) {
+  /*
+    #swagger.description = 'Get all planets from kepler'
+  */
+
   const { limit, skip } = definePagination(req.query);
 
   return res.status(200).json(await getAllLaunches(limit, skip));

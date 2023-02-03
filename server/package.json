@@ -4,20 +4,25 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "csv-parse": "^5.3.3",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^6.8.4",
     "morgan": "^1.10.0",
-    "pm2": "^5.2.2"
+    "pm2": "^5.2.2",
+    "swagger-autogen": "^2.23.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.0"
   },
   "scripts": {
     "watch": "nodemon src/server.js",
     "start": "node src/server.js",
     "test": "jest",
     "test-watch": "jest --watch",
-    "cluster": "pm2 start src/server.js -i max"
+    "cluster": "pm2 start src/server.js -i max",
+    "swagger-autogen": "node src/swagger.js"
   },
   "author": "",
   "license": "ISC",
